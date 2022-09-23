@@ -1,5 +1,7 @@
 # Truthtables for LaTeX
 
+[![Unit testing with Dockerfile](https://github.com/kieferro/truthtablesLuaTex/actions/workflows/unittesting.yaml/badge.svg?event=push)](https://github.com/kieferro/truthtablesLuaTex/actions/workflows/unittesting.yaml)
+
 ## Order of precedence
 
 | Operator           | Name | Precedence |
