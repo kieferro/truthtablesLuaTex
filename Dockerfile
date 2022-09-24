@@ -7,4 +7,4 @@ RUN luarocks install luaunit
 WORKDIR /workdir
 COPY src ./
 
-CMD lua5.3 test.lua -v
+CMD [ "lua5.3",  "test.lua", "-v" ]

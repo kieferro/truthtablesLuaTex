@@ -15,8 +15,15 @@ end
 require(get_script_path("main"))
 luaunit = require("luaunit")
 
-function test()
-    luaunit.assertEquals(true, evaluateExpression(""))
+TestExprEval = {}
+function TestExprEval:test_simple()
+    luaunit.skip("Feature and tests not yet implemented")
+end
+function TestExprEval:test_brackets()
+    luaunit.skip("Feature and tests not yet implemented")
+end
+function TestExprEval:test_complex()
+    luaunit.skip("Feature and tests not yet implemented")
 end
 
 -- Start unit testing and close with status code
