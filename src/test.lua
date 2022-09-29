@@ -87,6 +87,13 @@ end
 function TestSplitExpr:testInvalidExpression()
     luaunit.skip("Feature and test not yet implemented")
 end
+function TestSplitExpr:testBrackets()
+    luaunit.skip("Feature and test not yet implemented")
+end
+function TestSplitExpr:testOrder()
+    luaunit.skip("Feature and test not yet implemented")
+end
+
 
 -- Start unit testing and close with status code
 os.exit(luaunit.LuaUnit:run(), false)
