@@ -63,7 +63,7 @@ function splitExpression(expr)
         currentStr = currentStr .. currentChar
 
         :: continue ::
-        assert(level >= 0)
+        assert(level >= 0, "Too many closed brackets (ID-sE01)")
     end
 
     currentStr = strip(currentStr)
@@ -72,7 +72,7 @@ function splitExpression(expr)
         splitExpr[#splitExpr + 1] = currentStr
     end
 
-    assert(level == 0)
+    assert(level == 0, "Too few closed brackets (ID-sE02)")
     return splitExpr
 end
 
