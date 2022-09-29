@@ -1,3 +1,4 @@
+-- Function to remove spaces from start and end of string
 function strip(string)
     -- Remove spaces at the end
     while string:sub(#string, #string) == " " do
@@ -11,8 +12,10 @@ function strip(string)
     return string
 end
 
-function evaluateExpression(expr, values)
-    expressionParts = {}
+-- Function to split a given expression (string) into parts
+-- Parts are separated by spaces and need to be bracketed correctly
+function splitExpression(expr)
+    splitExpr = {}
     currentStr = ""
     level = 0
 
@@ -20,40 +23,59 @@ function evaluateExpression(expr, values)
         currentChar = expr:sub(i, i)
 
         if currentChar == "(" then
-            if level == 0 and #currentStr > 0 then
-                expressionParts[#expressionParts + 1] = currentStr
-                currentStr = "("
-            end
-
             level = level + 1
-        elseif currentChar == ")" then
-            currentStr = currentStr .. ")"
 
+            -- If this starts level one
             if level == 1 then
-                expressionParts[#expressionParts + 1] = currentStr
-                currentStr = ""
+                goto appendPart
+            else
+                goto addChar
             end
-
+        elseif currentChar == ")" then
             level = level - 1
-        elseif currentChar == " " then
-            if level == 0 and #currentStr > 0 then
-                expressionParts[#expressionParts + 1] = currentStr
-                currentStr = ""
-            end
 
-            if #currentStr > 0 then
-                currentStr = currentStr .. " "
+            -- If this closes level one
+            if level == 0 then
+                -- Set currentChar to empty string to reset currentStr
+                currentChar = ""
+                currentStr = currentStr .. ")"
+                goto appendPart
+            else
+                goto addChar
             end
+        elseif currentChar == " " and level == 0 then
+            goto appendPart
         else
-            currentStr = currentStr .. currentChar
+            goto addChar
         end
 
+        :: appendPart ::
+        currentStr = strip(currentStr)
+
+        -- Append string as part
+        if #currentStr > 0 then
+            splitExpr[#splitExpr + 1] = currentStr
+        end
+
+        currentStr = currentChar
+
+        :: addChar ::
+        currentStr = currentStr .. currentChar
+
+        :: continue ::
         assert(level >= 0)
     end
 
-    for i = 1, #expressionParts do
-        print(expressionParts[i])
+    currentStr = strip(currentStr)
+
+    if #currentStr > 0 then
+        splitExpr[#splitExpr + 1] = currentStr
     end
 
+    assert(level == 0)
+    return splitExpr
+end
+
+function evaluateExpression(expr, values)
     return true
 end
