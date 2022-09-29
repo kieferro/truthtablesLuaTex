@@ -1,20 +1,25 @@
-function get_script_path(script_name)
+-- Function to get the path to a script from the compile directory
+function get_script_path(scriptName)
+    -- The path to this test.lua file is read from the debug info and
+    -- matched with the patterns for windows and unix
     local path = debug.getinfo(2, "S").source:sub(2)
-    local res_windows = path:match("(.*[/\\])")
-    local res_unix = path:match("(.*/)")
+    local resultWindows = path:match("(.*[/\\])")
+    local resultUnix = path:match("(.*/)")
 
-    if res_windows ~= nil then
-        return res_windows .. script_name
-    elseif res_unix ~= nil then
-        return res_unix .. script_name
+    if resultWindows ~= nil then
+        return resultWindows .. scriptName
+    elseif resultUnix ~= nil then
+        return resultUnix .. scriptName
     else
-        return script_name
+        return scriptName
     end
 end
 
+-- Include main file and luaunit
 require(get_script_path("main"))
 luaunit = require("luaunit")
 
+-- Test strip() function
 TestStrip = {}
 function TestStrip:test()
     input = { " a",
@@ -37,6 +42,7 @@ function TestStrip:test()
     end
 end
 
+-- Test evaluateExpression() function
 TestExprEval = {}
 function TestExprEval:test_simple()
     luaunit.skip("Feature and test not yet implemented")

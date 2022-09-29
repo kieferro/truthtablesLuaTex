@@ -1,17 +1,17 @@
 function strip(string)
     -- Remove spaces at the end
-    while string:sub(#string,#string) == " " do
+    while string:sub(#string, #string) == " " do
         string = string:sub(1, #string - 1)
     end
     -- Remove spaces at the start
-    while string:sub(1,1) == " " do
+    while string:sub(1, 1) == " " do
         string = string:sub(2, #string)
     end
 
     return string
 end
 
-function evaluateExpression (expr, values)
+function evaluateExpression(expr, values)
     expressionParts = {}
     currentStr = ""
     level = 0
