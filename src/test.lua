@@ -15,6 +15,28 @@ end
 require(get_script_path("main"))
 luaunit = require("luaunit")
 
+TestStrip = {}
+function TestStrip:test()
+    input = { " a",
+              "a",
+              "  b    ",
+              "  b    d",
+              " c d e  ",
+              "ab",
+              "ab " }
+    expectedOutput = { "a",
+                       "a",
+                       "b",
+                       "b    d",
+                       "c d e",
+                       "ab",
+                       "ab" }
+
+    for i = 1, #input do
+        luaunit.assertEquals(strip(input[i]), expectedOutput[i])
+    end
+end
+
 TestExprEval = {}
 function TestExprEval:test_simple()
     luaunit.skip("Feature and test not yet implemented")
