@@ -42,7 +42,7 @@ function TestStrip:test()
     end
 end
 
--- Test evaluateExpression() function
+-- Test splitExpression() function
 TestSplitExpr = {}
 function TestSplitExpr:testSimple()
     luaunit.skip("Feature and test not yet implemented")
@@ -77,6 +77,27 @@ function TestSplitExpr:testInvalidBrackets()
 end
 function TestSplitExpr:testComplex()
     luaunit.skip("Feature and test not yet implemented")
+end
+
+-- Test operatorMatch() function
+TestOperatorMatch = {}
+function TestOperatorMatch:testEqual()
+    luaunit.assertTrue(operatorMatch("and", "and"))
+    luaunit.assertTrue(operatorMatch("or", "or"))
+    luaunit.assertTrue(operatorMatch("nor", "nor"))
+    luaunit.assertTrue(operatorMatch("some_operator", "some_operator"))
+end
+function TestOperatorMatch:testUppercaseLowercase()
+    luaunit.assertTrue(operatorMatch("AND", "and"))
+    luaunit.assertTrue(operatorMatch("and", "AND"))
+    luaunit.assertTrue(operatorMatch("and", "AnD"))
+    luaunit.assertTrue(operatorMatch("aNd", "AnD"))
+end
+function TestOperatorMatch:testDifferent()
+    luaunit.assertFalse(operatorMatch("and", "or"))
+    luaunit.assertFalse(operatorMatch("and", "nand"))
+    luaunit.assertFalse(operatorMatch("xor", "NOT"))
+    luaunit.assertFalse(operatorMatch("operator1", "operator2"))
 end
 
 -- Test evaluateExpression() function
