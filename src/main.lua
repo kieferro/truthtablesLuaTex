@@ -76,6 +76,31 @@ function splitExpression(expr)
     return splitExpr
 end
 
+-- Function to check if a given and a searched operator match.
+function operatorMatch(op1, op2)
+    OperationConvert = { ["&"] = "and",
+                         ["&&"] = "and",
+                         ["|"] = "or",
+                         ["||"] = "or",
+                         ["!"] = "not",
+                         ["~"] = "not",
+                         ["=>"] = "if",
+                         ["<="] = "rif",
+                         ["<=>"] = "equ",
+                         ["<->"] = "equ",
+                         ["^"] = "xor", }
+
+    -- Convert to text
+    if OperationConvert[op1] ~= nil then
+        op1 = OperationConvert[op1]
+    end
+    if OperationConvert[op2] ~= nil then
+        op2 = OperationConvert[op2]
+    end
+
+    return op1:lower() == op2:lower()
+end
+
 function evaluateExpression(expr, values)
     return true
 end
