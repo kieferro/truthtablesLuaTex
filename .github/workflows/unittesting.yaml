@@ -11,6 +11,10 @@ concurrency:
 
 jobs:
   Testing:
+    strategy:
+      matrix:
+        lua-version: ['5.1', '5.2', '5.3', '5.4']
+
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag luatest --build-arg LUA_VERSION=5.3
+        run: docker build . --file Dockerfile --tag luatest --build-arg LUA_VERSION=${{ matrix.lua-version }}
 
       - name: Run unit tests with Docker image
         run: docker run luatest
