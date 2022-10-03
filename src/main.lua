@@ -27,42 +27,46 @@ function splitExpression(expr)
 
             -- If this starts level one
             if level == 1 then
-                goto appendPart
+                currentStr = strip(currentStr)
+
+                -- Append string as part
+                if #currentStr > 0 then
+                    splitExpr[#splitExpr + 1] = currentStr
+                end
+
+                currentStr = currentChar
             else
-                goto addChar
+                currentStr = currentStr .. currentChar
             end
         elseif currentChar == ")" then
             level = level - 1
 
             -- If this closes level one
             if level == 0 then
-                -- Set currentChar to empty string to reset currentStr
-                currentChar = ""
-                currentStr = currentStr .. ")"
-                goto appendPart
+                currentStr = strip(currentStr .. ")")
+
+                -- Append string as part
+                if #currentStr > 0 then
+                    splitExpr[#splitExpr + 1] = currentStr
+                end
+
+                currentStr = ""
             else
-                goto addChar
+                currentStr = currentStr .. currentChar
             end
         elseif currentChar == " " and level == 0 then
-            goto appendPart
+            currentStr = strip(currentStr)
+
+            -- Append string as part
+            if #currentStr > 0 then
+                splitExpr[#splitExpr + 1] = currentStr
+            end
+
+            currentStr = currentChar
         else
-            goto addChar
+            currentStr = currentStr .. currentChar
         end
 
-        :: appendPart ::
-        currentStr = strip(currentStr)
-
-        -- Append string as part
-        if #currentStr > 0 then
-            splitExpr[#splitExpr + 1] = currentStr
-        end
-
-        currentStr = currentChar
-
-        :: addChar ::
-        currentStr = currentStr .. currentChar
-
-        :: continue ::
         assert(level >= 0, "Too many closed brackets (ID-sE01)")
     end
 
