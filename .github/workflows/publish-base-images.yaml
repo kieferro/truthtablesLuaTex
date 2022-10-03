@@ -1,0 +1,34 @@
+name: Publish base docker images
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Publish:
+    strategy:
+      matrix:
+        lua-version: [ '5.1', '5.2', '5.3', '5.4' ]
+
+    runs-on: ubuntu-latest
+    environment:
+      name: docker-hub
+      url: https://hub.docker.com/repository/docker/kieferro/debian-lua/general
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@21f251affc0769ccac8a1cf17e937592fb492337
+        with:
+          username: kieferro
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@83a00fb5e6d489daf5aaa5bad5efc9cd267d3dc8
+        with:
+          tags: kieferro/debian-lua:${{ matrix.lua-version }}
+          push: true
+          file: Dockerfile.build
+          build-args: |
+            LUA_VERSION=${{ matrix.lua-version }}
