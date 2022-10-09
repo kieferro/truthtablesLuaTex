@@ -90,6 +90,12 @@ end
 function TestSplitExpr:testComplex()
     luaunit.skip("Feature and test not yet implemented")
 end
+function TestSplitExpr:testSeveralSpaces()
+    luaunit.skip("Feature and test not yet implemented")
+end
+function TestSplitExpr:testNoSpaces()
+    luaunit.skip("Feature and test not yet implemented")
+end
 
 -- Test operatorMatch() function
 TestOperatorMatch = {}
