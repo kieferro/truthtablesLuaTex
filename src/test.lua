@@ -91,9 +91,40 @@ function TestSplitExpr:testComplex()
     luaunit.skip("Feature and test not yet implemented")
 end
 function TestSplitExpr:testSeveralSpaces()
-    luaunit.skip("Feature and test not yet implemented")
+    local input = { "a   OR b      AND (C  ^ D)",
+                    "NOT    C || B &&   ((A OR C))",
+                    "     NOT NOT NOT C   ",
+                    "NOT C OR NOT B OR A OR   C ",
+                    "~ ~ (A OR (B AND C)) OR    (B    AND    C)",
+                    "   NOT   A   " }
+    local expectedOutput = { { "a", "OR", "b", "AND", "(C  ^ D)" },
+                             { "NOT", "C", "||", "B", "&&", "((A OR C))" },
+                             { "NOT", "NOT", "NOT", "C" },
+                             { "NOT", "C", "OR", "NOT", "B", "OR", "A", "OR", "C" },
+                             { "~", "~", "(A OR (B AND C))", "OR", "(B    AND    C)" },
+                             { "NOT", "A" } }
+    for i = 1, #input do
+        luaunit.assertEquals(splitExpression(input[i]), expectedOutput[i])
+    end
 end
 function TestSplitExpr:testNoSpaces()
+    local input = { "a OR b AND(C ^ D)",
+                    "NOT C || B &&((A OR C))OR C",
+                    "NOT NOT NOT C",
+                    "NOT C OR NOT B OR A OR C",
+                    "~ ~(A OR(B AND C))OR(B AND C)",
+                    "A OR(B OR G)OR(H AND C)AND Z" }
+    local expectedOutput = { { "a", "OR", "b", "AND", "(C ^ D)" },
+                             { "NOT", "C", "||", "B", "&&", "((A OR C))", "OR", "C" },
+                             { "NOT", "NOT", "NOT", "C" },
+                             { "NOT", "C", "OR", "NOT", "B", "OR", "A", "OR", "C" },
+                             { "~", "~", "(A OR(B AND C))", "OR", "(B AND C)" },
+                             { "A", "OR", "(B OR G)", "OR", "(H AND C)", "AND", "Z" } }
+    for i = 1, #input do
+        luaunit.assertEquals(splitExpression(input[i]), expectedOutput[i])
+    end
+end
+function TestSplitExpr:testAll()
     luaunit.skip("Feature and test not yet implemented")
 end
 
