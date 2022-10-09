@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: docker-hub
-      url: https://hub.docker.com/repository/docker/kieferro/debian-lua/general
+      url: https://hub.docker.com/repository/docker/kieferro/debian-lua/tags?name=${{ matrix.lua-version }}
 
     steps:
       - name: Checkout
