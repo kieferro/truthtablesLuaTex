@@ -22,20 +22,20 @@ luaunit = require("luaunit")
 -- Test strip() function
 TestStrip = {}
 function TestStrip:test()
-    input = { " a",
-              "a",
-              "  b    ",
-              "  b    d",
-              " c d e  ",
-              "ab",
-              "ab " }
-    expectedOutput = { "a",
-                       "a",
-                       "b",
-                       "b    d",
-                       "c d e",
-                       "ab",
-                       "ab" }
+    local input = { " a",
+                    "a",
+                    "  b    ",
+                    "  b    d",
+                    " c d e  ",
+                    "ab",
+                    "ab " }
+    local expectedOutput = { "a",
+                             "a",
+                             "b",
+                             "b    d",
+                             "c d e",
+                             "ab",
+                             "ab" }
 
     for i = 1, #input do
         luaunit.assertEquals(strip(input[i]), expectedOutput[i])
@@ -45,15 +45,27 @@ end
 -- Test splitExpression() function
 TestSplitExpr = {}
 function TestSplitExpr:testSimple()
-    luaunit.skip("Feature and test not yet implemented")
+    local input = { "a OR b AND (C ^ D)",
+                    "NOT C || B && ((A OR C))",
+                    "NOT NOT NOT C",
+                    "NOT C OR NOT B OR A OR C",
+                    "~ ~ (A OR (B AND C)) OR (B AND C)" }
+    local expectedOutput = { { "a", "OR", "b", "AND", "(C ^ D)" },
+                             { "NOT", "C", "||", "B", "&&", "((A OR C))" },
+                             { "NOT", "NOT", "NOT", "C" },
+                             { "NOT", "C", "OR", "NOT", "B", "OR", "A", "OR", "C" },
+                             { "~", "~", "(A OR (B AND C))", "OR", "(B AND C)" } }
+    for i = 1, #input do
+        luaunit.assertEquals(splitExpression(input[i]), expectedOutput[i])
+    end
 end
 function TestSplitExpr:testUnbalancedBrackets()
     -- Test for expressions with a different number of open and closed brackets
-    unbalanced = { "a OR b AND (",
-                   "(((a OR b))",
-                   "(",
-                   "a OR (b AND (c OR c OR c) XOR (d)",
-                   "( " }
+    local unbalanced = { "a OR b AND (",
+                         "(((a OR b))",
+                         "(",
+                         "a OR (b AND (c OR c OR c) XOR (d)",
+                         "( " }
 
     for i = 1, #unbalanced do
         luaunit.assertErrorMsgContains("ID-sE02", splitExpression, unbalanced[i])
@@ -63,13 +75,13 @@ function TestSplitExpr:testInvalidBrackets()
     -- Test for expressions with invalid brackets:
     -- 1. More closed brackets than open ones
     -- 2. Closing a bracket that has not been opened
-    invalid = { ")",
-                "())",
-                "a OR (b))",
-                "a OR b)",
-                "a OR )(",
-                "))((",
-                "a OR (b AND (c OR c OR c))) XOR (d" }
+    local invalid = { ")",
+                      "())",
+                      "a OR (b))",
+                      "a OR b)",
+                      "a OR )(",
+                      "))((",
+                      "a OR (b AND (c OR c OR c))) XOR (d" }
 
     for i = 1, #invalid do
         luaunit.assertErrorMsgContains("ID-sE01", splitExpression, invalid[i])
