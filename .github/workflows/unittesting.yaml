@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag luatest --build-arg LUA_VERSION=${{ matrix.lua-version }}
