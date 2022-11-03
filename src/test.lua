@@ -68,7 +68,7 @@ function TestSplitExpr:testUnbalancedBrackets()
                          "( " }
 
     for i = 1, #unbalanced do
-        luaunit.assertErrorMsgContains("ID-sE02", splitExpression, unbalanced[i])
+        luaunit.assertErrorMsgContains("Error-ID=002", splitExpression, unbalanced[i])
     end
 end
 function TestSplitExpr:testInvalidBrackets()
@@ -84,7 +84,7 @@ function TestSplitExpr:testInvalidBrackets()
                       "a OR (b AND (c OR c OR c))) XOR (d" }
 
     for i = 1, #invalid do
-        luaunit.assertErrorMsgContains("ID-sE01", splitExpression, invalid[i])
+        luaunit.assertErrorMsgContains("Error-ID=001", splitExpression, invalid[i])
     end
 end
 function TestSplitExpr:testComplex()
