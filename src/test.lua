@@ -88,7 +88,17 @@ function TestSplitExpr:testInvalidBrackets()
     end
 end
 function TestSplitExpr:testComplex()
-    luaunit.skip("Feature and test not yet implemented")
+    local input = { "a OR b AND (C => NOT B) & ((C) ^ (B))",
+                    "NOT NOT NOT B",
+                    "A OR (B OR (C OR (D OR (E OR (F OR G)))))",
+                    "((A && B) ^ (C & D)) ^ !(!A ^ B) && !(C)"}
+        local expectedOutput = { { "a", "OR", "b", "AND", "(C => NOT B)", "&", "((C) ^ (B))" },
+                                 {"NOT", "NOT", "NOT", "B"},
+                                 {"A", "OR", "(B OR (C OR (D OR (E OR (F OR G)))))"},
+                                 {"((A && B) ^ (C & D))", "^", "!", "(!A ^ B)", "&&", "!", "(C)"}, }
+        for i = 1, #input do
+            luaunit.assertEquals(splitExpression(input[i]), expectedOutput[i])
+        end
 end
 function TestSplitExpr:testSeveralSpaces()
     local input = { "a   OR b      AND (C  ^ D)",
@@ -123,9 +133,6 @@ function TestSplitExpr:testNoSpaces()
     for i = 1, #input do
         luaunit.assertEquals(splitExpression(input[i]), expectedOutput[i])
     end
-end
-function TestSplitExpr:testAll()
-    luaunit.skip("Feature and test not yet implemented")
 end
 
 -- Test operatorMatch() function
